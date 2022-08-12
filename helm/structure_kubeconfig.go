@@ -44,7 +44,8 @@ func (k *KubeConfig) ToDiscoveryClient() (discovery.CachedDiscoveryInterface, er
 	// The more groups you have, the more discovery requests you need to make.
 	// given 25 groups (our groups + a few custom resources) with one-ish version each, discovery needs to make 50 requests
 	// double it just so we don't end up here again for a while.  This config is only used for discovery.
-	config.Burst = 100
+	config.Burst = 3000
+	config.QPS = 50
 
 	return memcached.NewMemCacheClient(discovery.NewDiscoveryClientForConfigOrDie(config)), nil
 }
